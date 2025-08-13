@@ -1,32 +1,36 @@
 ﻿using Library.Core.Domain.Books.Common;
 using Library.Core.Domain.Books.Models;
+using Library.Persistence.LibraryDb;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Infrastructure.Core.Domain.Books;
 
-public class BooksRepository : IBooksRepository
+public class BooksRepository(LibraryDbContext dbContext) : IBooksRepository
 {
-    public Task<Book> GetById(Guid bookId, CancellationToken cancellationToken = default)
+    public async Task<Book> GetById(Guid bookId, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return await dbContext.Books
+            .FirstOrDefaultAsync(b => b.Id == bookId);
     }
 
-    public Task<Book?> GetByIsbn(string isbn, CancellationToken cancellationToken = default)
+    public async Task<Book?> GetByIsbn(string isbn, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return await dbContext.Books
+            .FirstOrDefaultAsync(b => b.Isbn == isbn);
     }
 
-    public Task AddAsync(Book book, CancellationToken cancellationToken = default)
+    public async Task AddAsync(Book book, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        await dbContext.Books.AddAsync(book);
     }
 
-    public Task Update(Book book, CancellationToken cancellationToken = default)
+    public void Update(Book book)
     {
-        throw new NotImplementedException();
+        dbContext.Books.Update(book);
     }
 
     public void Remove(Book book)
     {
-        throw new NotImplementedException();
+        dbContext.Books.Remove(book);
     }
 }

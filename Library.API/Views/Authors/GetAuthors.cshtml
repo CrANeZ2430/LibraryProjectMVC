@@ -1,38 +1,60 @@
-﻿@using Library.API.ViewModels.Authors
-@model IEnumerable<AuthorViewModel>
-
-@{
+﻿@{
     ViewData["Title"] = "Authors";
-
     var anonymousImageUrl = "https://ui-avatars.com/api/?name=Anonymous&background=0D8ABC&color=fff&size=140";
 }
 
 <h1 class="mb-4 text-dark">Authors</h1>
 
-<div class="list-group list-group-flush">
-    @foreach (var author in Model)
-    {
-        var imgUrl = string.IsNullOrWhiteSpace(author.ImageUrl) ? anonymousImageUrl : author.ImageUrl;
-        <div class="list-group-item author-item d-flex align-items-start p-3 mb-3 rounded-3 shadow-sm">
-            <a asp-controller="Authors" asp-action="GetAuthorDetail" asp-route-id="@author.Id">
-                <img src="@imgUrl"
-                     class="author-img rounded-3 me-3 flex-shrink-0"/>
-            </a>
+<form asp-controller="Authors" asp-action="BulkDelete" method="post"
+      onsubmit="return confirm('Are you sure you want to delete the selected authors?');">
 
-            <div class="author-info flex-grow-1 text-dark">
-                <h5 class="mb-1 fw-bold">
-                    @author.FirstName
-                    @(string.IsNullOrWhiteSpace(author.MiddleName) ? "" : author.MiddleName + " ")
-                    @author.LastName
-                </h5>
-                <p class="mb-1 author-bio" style="max-width: 600px; word-wrap: break-word; white-space: normal;">
-                    @author.Biography
-                </p>
+    <div class="list-group list-group-flush">
+        @foreach (var author in Model)
+        {
+            var imgUrl = string.IsNullOrWhiteSpace(author.ImageUrl) ? anonymousImageUrl : author.ImageUrl;
+            <div class="list-group-item author-item position-relative p-3 mb-3 rounded-3 shadow-sm">
+
+                <!-- Checkbox -->
+                <input type="checkbox" name="SelectedAuthorIds" value="@author.Id"
+                       class="delete-checkbox form-check-input position-absolute"/>
+
+                <!-- Author content -->
+                <a asp-controller="Authors" asp-action="GetAuthorDetails" asp-route-authorId="@author.Id"
+                   class="d-flex align-items-start text-decoration-none text-dark">
+
+                    <img src="@imgUrl"
+                         alt="@($"{author.FirstName} {author.LastName}")"
+                         class="author-img rounded-3 me-3 flex-shrink-0" />
+
+                    <div class="author-info flex-grow-1">
+                        <h5 class="fw-bold mb-1">
+                            @author.FirstName
+                            @(string.IsNullOrWhiteSpace(author.MiddleName) ? "" : author.MiddleName + " ")
+                            @author.LastName
+                        </h5>
+
+                        @if (!string.IsNullOrWhiteSpace(author.Biography))
+                        {
+                            <p class="fs-5 fst-italic" style="max-width: 600px; word-wrap: break-word;">
+                                @author.Biography
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="text-muted fst-italic">No biography available.</p>
+                        }
+                    </div>
+                </a>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
 
-
+    <!-- Delete button -->
+    <div class="mt-4 text-end">
+        <button asp-controller = "Authors" asp-action = "DeleteAuthors" type="submit" class="btn btn-danger btn-lg">
+            Delete Selected
+        </button>
+    </div>
+</form>
 
 

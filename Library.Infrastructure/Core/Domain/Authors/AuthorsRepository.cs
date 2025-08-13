@@ -1,14 +1,16 @@
 ﻿using Library.Core.Domain.Authors.Common;
 using Library.Core.Domain.Authors.Models;
 using Library.Persistence.LibraryDb;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Infrastructure.Core.Domain.Authors;
 
 public class AuthorsRepository(LibraryDbContext dbContext) : IAuthorsRepository
 {
-    public Task<Author> GetById(Guid userId, CancellationToken cancellationToken = default)
+    public async Task<Author> GetById(Guid authorId, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return await dbContext.Authors
+            .FirstOrDefaultAsync(a => a.Id == authorId, cancellationToken);
     }
 
     public async Task AddAsync(Author author, CancellationToken cancellationToken = default)
@@ -16,13 +18,13 @@ public class AuthorsRepository(LibraryDbContext dbContext) : IAuthorsRepository
         await dbContext.Authors.AddAsync(author, cancellationToken);
     }
 
-    public async Task Update(Author author, CancellationToken cancellationToken = default)
+    public void Update(Author author)
     {
-        throw new NotImplementedException();
+        dbContext.Authors.Update(author);
     }
 
     public void Remove(Author author)
     {
-        throw new NotImplementedException();
+        dbContext.Authors.Remove(author);
     }
 }

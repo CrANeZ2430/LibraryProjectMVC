@@ -6,6 +6,6 @@ public interface IAuthorsRepository
 {
     Task<Author> GetById(Guid userId, CancellationToken cancellationToken = default);
     Task AddAsync(Author author, CancellationToken cancellationToken = default);
-    Task Update(Author author, CancellationToken cancellationToken = default);
+    void Update(Author author);
     void Remove(Author author);
 }
