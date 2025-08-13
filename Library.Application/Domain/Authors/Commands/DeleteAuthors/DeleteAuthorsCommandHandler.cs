@@ -1,5 +1,6 @@
 ﻿using Library.Core.Common;
 using Library.Core.Domain.Authors.Common;
+using Library.Core.Domain.Authors.Models;
 using MediatR;
 
 namespace Library.Application.Domain.Authors.Commands.DeleteAuthors;
@@ -11,8 +12,7 @@ public class DeleteAuthorsCommandHandler(
 {
     public async Task Handle(DeleteAuthorsCommand command, CancellationToken cancellationToken = default)
     {
-        var authors = await Task.WhenAll(command.AuthorIds.Select(id =>
-            authorsRepository.GetById(id, cancellationToken)));
+        var authors = await authorsRepository.GetByIds(command.AuthorIds);
 
         foreach (var author in authors)
             authorsRepository.Remove(author);

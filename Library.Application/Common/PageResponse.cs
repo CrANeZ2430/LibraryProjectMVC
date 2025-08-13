@@ -1,6 +1,7 @@
 ﻿namespace Library.Application.Common;
 
 public record PageResponse<T>(
+    T Data,
     int Count,
-    T Data)
+    int TotalCount)
     where T : class;

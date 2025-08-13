@@ -1,4 +1,4 @@
-﻿namespace Library.API.ViewModels.Authors;
+﻿namespace Library.API.ViewModels.Authors.AuthorsPage;
 
 public record AuthorViewModel(
     Guid Id,

@@ -34,8 +34,13 @@ body {
 
 .author-details-img {
     width: 250px;
-    height: 300px;
+    height: 100%;
     object-fit: cover;
+}
+
+.bio-paragraph {
+    max-width: 600px;
+    word-wrap: break-word;
 }
 
 .delete-checkbox {

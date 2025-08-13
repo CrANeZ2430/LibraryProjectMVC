@@ -1,4 +1,5 @@
 ﻿@using Library.API.ViewModels.Authors
+@using Library.API.ViewModels.Authors.AuthorDetailsPage
 @model AuthorDetailsViewModel
 
 @{
@@ -11,7 +12,7 @@
     <div class="card shadow-sm p-4">
         <div class="row g-4">
             <!-- Author Image -->
-            <div class="col-md-4 text-center">
+            <div class="col-md-3 text-center">
                 <img src="@imgUrl"
                      alt="@($"{Model.FirstName} {Model.LastName}")"
                      class="author-details-img img-fluid rounded-3 shadow-sm"/>

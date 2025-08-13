@@ -13,6 +13,13 @@ public class AuthorsRepository(LibraryDbContext dbContext) : IAuthorsRepository
             .FirstOrDefaultAsync(a => a.Id == authorId, cancellationToken);
     }
 
+    public async Task<Author[]> GetByIds(Guid[] authorIds, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Authors
+            .Where(a => authorIds.Contains(a.Id))
+            .ToArrayAsync();
+    }
+
     public async Task AddAsync(Author author, CancellationToken cancellationToken = default)
     {
         await dbContext.Authors.AddAsync(author, cancellationToken);

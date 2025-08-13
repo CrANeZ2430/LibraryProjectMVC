@@ -1,6 +1,6 @@
-﻿namespace Library.API.ViewModels.Authors;
+﻿namespace Library.API.ViewModels.Authors.AuthorsPage;
 
-public record AuthorDetailsViewModel(
+public record AddAuthorViewModel(
     string FirstName,
     string LastName,
     string? MiddleName,

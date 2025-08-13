@@ -30,6 +30,8 @@ public class GetAuthorsQueryHandler(
         var authors = await sqlQuery.ToArrayAsync(cancellationToken);
         var count = authors.Count();
 
-        return new PageResponse<AuthorDto[]>(count, authors);
+        var totalCount = await dbContext.Authors.CountAsync();
+
+        return new PageResponse<AuthorDto[]>(authors, count, totalCount);
     }
 }
